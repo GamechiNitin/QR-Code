@@ -41,7 +41,9 @@ class _ScannerViewState extends State<ScannerView> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
-        log(result?.code ?? 'No Result');
+        String message = result?.code ?? 'No Result';
+        log(message);
+        Helper.showToast(context, message);
       });
     });
   }
@@ -72,12 +74,6 @@ class _ScannerViewState extends State<ScannerView> {
                     onQRViewCreated: _onQRViewCreated,
                   ),
                 ),
-                // const Divider(
-                //   height: 2,
-                //   color: Colors.blue,
-                //   thickness: 4,
-                // )
-
                 const Text(
                   "------------------------------------------------------------------------------------------------------------",
                   style: TextStyle(
