@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:zqr_app/core/data/generate_code.dart';
+import 'package:zqr_app/utils/helper.dart';
 
 class GenerateQrView extends StatefulWidget {
   const GenerateQrView({super.key});
@@ -15,11 +18,18 @@ class _GenerateQrViewState extends State<GenerateQrView> {
   @override
   void initState() {
     super.initState();
-    data = GenerateCode.getCode();
+    getCode();
   }
 
   Future<void> getCode() async {
-    // data = await PermissionService.requestCameraPermission();
+    data = GenerateCode.getCode();
+    log(data);
+    Helper.showToast(context, "Code : $data");
+    _notify();
+  }
+
+  _notify() {
+    if (mounted) setState(() {});
   }
 
   @override
@@ -39,7 +49,7 @@ class _GenerateQrViewState extends State<GenerateQrView> {
           ),
           const SizedBox(height: 20),
           TextButton(
-            onPressed: () {},
+            onPressed: () => getCode(),
             child: const Text("Generate"),
           ),
           const SizedBox(height: 20),

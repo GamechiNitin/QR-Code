@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 import 'package:zqr_app/core/permission/permission_service.dart';
+import 'package:zqr_app/utils/helper.dart';
 
 class ScannerView extends StatefulWidget {
   const ScannerView({super.key});
@@ -26,6 +27,13 @@ class _ScannerViewState extends State<ScannerView> {
 
   Future<void> getCamera() async {
     data = await PermissionService.requestCameraPermission();
+    Helper.showToast(context, "Permission : $data");
+
+    _notify();
+  }
+
+  _notify() {
+    if (mounted) setState(() {});
   }
 
   void _onQRViewCreated(QRViewController controller) {
@@ -48,14 +56,38 @@ class _ScannerViewState extends State<ScannerView> {
           const Text(
             "Scanner",
             style: TextStyle(
-              fontSize: 25,
+              fontSize: 20,
             ),
           ),
+          const SizedBox(height: 20),
           Expanded(
             flex: 5,
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  child: QRView(
+                    key: qrKey,
+                    onQRViewCreated: _onQRViewCreated,
+                  ),
+                ),
+                // const Divider(
+                //   height: 2,
+                //   color: Colors.blue,
+                //   thickness: 4,
+                // )
+
+                const Text(
+                  "------------------------------------------------------------------------------------------------------------",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    letterSpacing: 5,
+                  ),
+                  maxLines: 1,
+                ),
+              ],
             ),
           ),
           Expanded(
